@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title></title>
+
+<!-- Load jQuery - using the version hosted by jquery.com but you may want to host a copy locally in case something happens to this one -->
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+<!-- Style is optional... I just provided this to make it look a little more attractive-->
+<style>
+body {
+	background-color: #CCC;
+	font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
+}
+h3 {
+	color: darkcyan;
+}
+input[type=text] {
+	font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace;
+	font-size: 11px;
+	font-style: italic;
+	font-weight: bold;
+	line-height: normal;
+	background-color: #999;
+	position: absolute;
+	left: 150px;
+}
+input[type=text]:focus {
+	border-color: #333;
+}
+input[type=submit] {
+	background-color: #036;
+	font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif;
+	font-weight: bold;
+	color: #FFF
+}
+#resultsPanel {
+	display: none;
+}
+#searchPanel {
+	display: none;
+}
+#mapView {
+	position: absolute;
+	border-color: #333;
+	left: 320px;
+	height: 180px;
+	width: 300px;
+}
+</style>
+
+<!--Load Leaflet.js stylesheet and library for map view-->
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+</head>
+
+<body>
+<div id="searchPanel">
+  <h3>Facility Lookup</h3>
+  <p>Facility Name 
+    <!-- label field with the tag 'name' to use in jQuery to read the entered facility name -->
+    <input type="text" id="name" />
+    <br />
+    City 
+    <!-- label field with the tag 'city' to use in jQuery to read the entered city name -->
+    <input type="text" id="city" />
+    <br />
+    State code 
+    <!-- label field with the tag 'state' to use in jQuery to read the entered state code -->
+    <input type="text" id="state" />
+    <br />
+  </p>
+  
+  <!-- Use the tag 'btnSubmit' to attach the button click event in jQuery.   Styling is just for positioning the button horizontally-->
+  <input style="position: absolute; left: 150px" id="btnSubmit" type="submit" value="query" />
+  <input style="position: absolute; left: 240px" id="btnClear" type="submit" value="clear" />
+</div>
+<div id="resultsPanel"> 
+  <!-- panel will be hidden, but will show up when results arrive using jQuery show() -->
+  <h3>Search Results</h3>
+  <!-- jQuery will use the tag 'facs' to populate the returned data -->
+  <div id="facs"></div>
+  <input style="position: absolute; left: 150px" id="btnSelect" type="submit" value="select" />
+</div>
+<div id='originalForm'>
+  <h3>Facility Data Entry
+    <input style="position: absolute; left: 210px" id="btnSearch" type="submit" value="search for facility" />
+  </h3>
+  <div id="mapView"></div>
+  <p>Facility Name 
+    <!-- label fields so that we can populate them using returned JSON values -->
+    <input type="text" id="formName" />
+    <br />
+    Address
+    <input type="text" id="formAddr" />
+    <br />
+    City
+    <input type="text" id="formCity" />
+    <br />
+    State code
+    <input type="text" id="formState" />
+    <br />
+    ZIP code
+    <input type="text" id="formZIP" />
+    <br />
+    County
+    <input type="text" id="formCounty" />
+    <br />
+    <br />
+    Latitude
+    <input type="text" id="formLat" />
+    <br />
+    Longitude
+    <input type="text" id="formLon" />
+    <br />
+    <br />
+</div>
+
+<!-- This is a sample query that will be used: http://ofmpub.epa.gov/enviro/frs_rest_services.get_facilities?pgm_sys_acrnm=CERCLIS&zip_code=60085&program_output=YES&output=JSONP&callback=? --> 
+
+<script>
+        // global variable to hold the json results, to make it easier to use
+        var jsonObj = ""
+
+		// global variable to hold the facility ID, to make it easier to use
+        var facID = ""
+
+         // attach the appropriate functions to the button click event
+        $("#btnSubmit").click((function () {
+            runQuery();
+        }));
+
+        $("#btnClear").click((function () {
+            clearInfo();
+        }));
+
+        $("#btnSelect").click((function () {
+            btnSelect();
+        }));
+
+        $("#btnSearch").click((function () {
+            btnSearch();
+        }));
+
+        function runQuery() {
+            //read the user-entered query parameters from the query form
+            var qName = $('#name').val();
+            var qCity = $('#city').val();
+            var qState = $('#state').val();
+            //For this REST service, it is important to specify cache: true because otherwise jQuery will append an erroneous parameter to the query.
+            jQuery.ajaxSetup({
+                cache: true
+            });
+
+            //specify base endpoint - note callback
+            var echoAPI = "http://ofmpub.epa.gov/enviro/frs_rest_services.get_facilities?callback=?";
+            //pass in lookup query parameters
+            $.getJSON(echoAPI, {
+                facility_name: qName,
+                city_name: qCity,
+                state_abbr: qState,
+                output: "jsonp"
+            })
+            //execute the action to parse the returned JSON on completion
+            .done(function (data) {
+				// toggle the results panel
+                $("#resultsPanel").show();
+                jsonObj = data;
+                //iterate through each item returned - in this case, item is a facility
+                $.each(data.Results.FRSFacility, function (i, item) {
+                    //access the elements inside each item and append them to the content in facs - with HTML formatting and hyperlinks
+                    $("<input type='radio' name='radioSelect' value=" + i + "> <b>" + item.FacilityName + "<a href='http://iaspub.epa.gov/enviro/fii_query_detail.disp_program_facility?p_registry_id=" + item.RegistryId + "' target='_blank'> FRS Registry ID: " + item.RegistryId + "</a></b><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + item.LocationAddress + "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + item.CityName + " " + item.StateAbbr + " " + item.ZipCode + "<br/>").appendTo("#facs");
+
+                    if (i === 4) {
+                        return false;
+                    }
+                });
+            });
+
+        }
+
+        function clearInfo() {
+			// clear lookup query values and empty displayed search results
+            $("#name").val("");
+            $("#city").val("");
+            $("#state").val("");
+            $("#facs").html("");
+        }
+
+         //This function selects the item and populates the form values with data from the service
+        function btnSelect() {
+            $("#searchPanel").hide();
+            $("#resultsPanel").hide();
+            $("#originalForm").show();
+			if (map.hasLayer(marker)) {
+			 map.removeLayer(marker);
+			}
+
+			// grab FRS Registry ID
+        	facID = jsonObj.Results.FRSFacility[$('input[name=radioSelect]:checked').val()].RegistryId;
+
+			// populate form fields with retrieved info
+            $("#formName").val(jsonObj.Results.FRSFacility[$('input[name=radioSelect]:checked').val()].FacilityName);
+            $("#formAddr").val(jsonObj.Results.FRSFacility[$('input[name=radioSelect]:checked').val()].LocationAddress);
+            $("#formCity").val(jsonObj.Results.FRSFacility[$('input[name=radioSelect]:checked').val()].CityName);
+            $("#formState").val(jsonObj.Results.FRSFacility[$('input[name=radioSelect]:checked').val()].StateAbbr);
+            $("#formZIP").val(jsonObj.Results.FRSFacility[$('input[name=radioSelect]:checked').val()].ZipCode);
+            $("#formCounty").val(jsonObj.Results.FRSFacility[$('input[name=radioSelect]:checked').val()].CountyName);
+
+			// retrieve program data
+
+			getProgram();
+
+
+
+
+
+			// putting retrieved facility lat and long into variables to make them easier to use
+            var fLat = jsonObj.Results.FRSFacility[$('input[name=radioSelect]:checked').val()].Latitude83;
+            var fLon = jsonObj.Results.FRSFacility[$('input[name=radioSelect]:checked').val()].Longitude83;
+
+			if (!fLat) {
+
+			// if no lat long, show map default and blank values
+			map.setView(new L.LatLng(40.283512, -98.393822), 3);
+			$("#formLat").val("");
+            $("#formLon").val("");
+			}
+			else {
+
+			// fill in the form field with retrieved lat/long
+            $("#formLat").val(fLat);
+            $("#formLon").val(fLon);
+
+			// put a pushpin on the map and zoom in
+            var marker = L.marker([fLat, fLon]).addTo(map);
+            map.setView([fLat, fLon], 15);
+			$("#facs").html("");
+			}
+		}
+
+        function btnSearch() {
+			// toggle panel visibility
+            $("#searchPanel").show();
+			// if user started entering information into the form, copy for search
+			$("#name").val($('#formName').val());
+			$("#city").val($('#formCity').val());
+			$("#state").val($('#formState').val());
+			// toggle the form off
+            $("#originalForm").hide();
+        }
+
+		function getProgram() {
+			// Run a query using facID to retrieve all program interests
+// For this REST service, it is important to specify cache: true because otherwise jQuery will append an erroneous parameter to the query.
+jQuery.ajaxSetup({
+    cache: true
+});
+
+//specify base endpoint - note callback
+var echoAPI = "http://ofmpub.epa.gov/enviro/frs_rest_services.get_facilities?callback=?";
+//pass in lookup query parameters
+$.getJSON(echoAPI, {
+    registry_id: facID,
+    program_output: "YES",
+    output: "jsonp"
+})
+//execute the action to parse the returned JSON on completion
+.done(function (data) {
+    // toggle the results panel
+    //iterate through each item returned - in this case, item is a program interest
+	alert(Object.keys(data.Results.FRSFacility.ProgramFacilities).length);
+	alert(data.Results.FRSFacility.ProgramFacilities.length());
+    for (var j = 0; j < data.Results.FRSFacility[0].ProgramFacilities.length(); j++) {
+		alert("hey");
+        alert(data.Results.FRSFacility[0].ProgramFacilities[j].ProgramSystemAcronym);
+    }
+});
+}
+
+		// set up a Leaflet map bound to the mapView div tag
+        var map = L.map('mapView');
+
+         // Set up an OpenStreetMap tile layer with correct attribution
+        var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        var osmAttrib = 'Map data &copy; OpenStreetMap contributors';
+        var osm = new L.TileLayer(osmUrl, {
+            minZoom: 1,
+            maxZoom: 16,
+            attribution: osmAttrib
+        });
+
+         // Default map view showing the US with OpenStreetMap base layer
+        map.setView(new L.LatLng(40.283512, -98.393822), 3);
+        map.addLayer(osm);
+    </script>
+</body>
+</html>

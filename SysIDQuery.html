@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+<!-- Style is optional... I just provided this to make it look a little more attractive-->
+    <style>
+        body {
+            background-color: #CCC;
+            font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
+        }
+        h3 {
+            color: darkcyan;
+        }
+        input[type=text] {
+            font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace;
+            font-size: 11px;
+            font-style: italic;
+            font-weight: bold;
+            line-height: normal;
+            background-color: #999;
+            position: absolute;
+            left: 150px;
+        }
+        input[type=text]:focus {
+            border-color: #333;
+        }
+        input[type=submit] {
+            background-color: #036;
+            font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif;
+            font-weight: bold;
+            color: #FFF
+        }
+		select {
+	border-color: #333;
+	position: absolute;
+	left: 150px;
+	font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace;
+	height: 22px;
+        }
+		
+        #resultsPanel {
+            display: none;
+        }
+        #searchPanel {
+            display: none;
+        }
+        #mapView {
+            position: absolute;
+            border-color: #333;
+            left: 320px;
+            height: 180px;
+            width: 300px;
+        }
+    </style>
+
+</head>
+
+<body>
+<h3>Facility Search by State ID</h3>
+<p>State Acronym  <select id="sysAcrnm">
+  <option value="AZURITE">Arizona - Arizona Unified Repository for Informational Tracking of The Environment (AZURITE)</option>
+  <option value="PDS">Arkansas - Permit Data System (PDS)</option>
+  <option value="DTSC-ENVIROSTOR">California - Department of Toxic Substances Control-EnviroStor System (DTSC-EnviroStor)</option>
+  <option value="HWTS-DATAMART">California - Hazardous Waste Tracking System - Datamart (HWTS-DATAMART)</option>
+  <option value="CASWIS">California - Solid Waste Information System (CASWIS)</option>
+  <option value="UORS">California - Used Oil Recycling System (UORS)</option>
+<option value="CA-CERS">California - California Environmental Reporting System (CA-CERS)</option>
+<option value="ECOMAP">Colorado - (ECOMAP)</option>
+<option value="CT-SIMS">Connecticut - Site Information Management System (SIMS)</option>
+<option value="DENS">Delaware - Delaware Environmental Navigator (DEN)</option>
+<option value="FDM">Florida - Fiesta Data Maintenance (FDM)</option>
+<option value="GEIMS">Georgia - Geographic Environmental Information Management System (GEIMS)</option>
+<option value="HI-EHW">Hawaii - Environmental Health Warehouse (HI-EHW)</option>
+<option value="IDDEQ">Idaho - Department of Environmental Quality (IDDEQ)</option>
+<option value="ACES">Illinois - Agency Compliance and Enforcement System (ACES)</option>
+<option value="IN-FRS">Indiana - Facility Registry System (IN-FRS)</option>
+<option value="IDNR_EFD">Iowa - Department of Natural Resources Environmental Facilities Database (IDNR_EFD)</option>
+<option value="KS-FP">Kansas - Facility Profile (KS-FP)</option>
+<option value="KY-TEMPO">Kentucky - Tools for Environmental Management and Protection Organizations (KY-TEMPO)</option>
+<option value="LA-TEMPO">Louisiana - Tools for Environmental Management and Protection Organizations (LA-TEMPO)</option>
+<option value="ME-EFIS">Maine - Environmental Facility Information System (ME-EFIS)</option>
+<option value="MD-EPSC">Maryland - Environmental Permit Service Center (MD-EPSC)</option>
+<option value="MD-PEMIS">Maryland - Permanent (Air) Emission (MD-PEMIS)</option>
+<option value="MD-RCRA">Maryland - Resource Conservation and Recovery Act Information System (MD-RCRA)</option>
+<option value="TEMPO">Maryland - Tools for Environmental Management and Protection Organizations (TEMPO)</option>
+<option value="MA-EPICS">Massachusetts - Environmental Protection Computer System (MA-EPICS)</option>
+<option value="MN-DELTA">Minnesota - Permitting, Compliance, And Enforcement Information Management System (MN-DELTA)</option>
+<option value="MS-ENSITE">Mississippi - Tools for Environmental Management and Protection Organizations (MS-ENSITE)</option>
+<option value="MO-DNR">Missouri - Department Of Natural Resources (MO-DNR)</option>
+<option value="MT-CEDARS">Montana - Consolidated Environmental Data Acquisition and Retrieval System (MT-CEDARS)</option>
+<option value="NV-FP">Nevada Facility Profile (NV-FP)</option>
+<option value="NDEQ">Nebraska Department of Environmental Quality (NDEQ)</option>
+<option value="NH-DES">New Hampshire - Department of Environmental Services (NH-DES)</option>
+<option value="NJ-NJEMS">New Jersey - New Jersey Environmental Management System (NJ-NJEMS)</option>
+<option value="NM-TEMPO">New Mexico - Tools for Environmental Management and Protection Organizations (NM-TEMPO)</option>
+<option value="FIS">New York - Facility Information System (FIS)</option>
+<option value="NC-FITS">North Carolina - Facility Identification Template For States (NC-FITS)</option>
+<option value="ND-FP">North Dakota - Facility Profile (ND-FP)</option>
+<option value="OH-CORE">Ohio - Core (OH-CORE)</option>
+<option value="OK-FMS">Oklahoma - Facility Management System (OK-FMS)</option>
+<option value="OR-DEQ">Oregon - Department of Environmental Quality (OR-DEQ)</option>
+<option value="PA-EFACTS">Pennsylvania – Environmental, Facility, Application, and Compliance Tracking System (PA-EFACTS)</option>
+<option value="RI-PLOVER">Rhode Island - Permits, Licenses and Other Vital Environmental Records (RI-PLOVER)</option>
+<option value="SC-EFIS">South Carolina - Environmental Facility Information System (SC-EFIS)</option>
+<option value="TX-TCEQ ACR">Texas - Texas Commission on Environmental Quality - Agency Central Registry (TX-TCEQ ACR)</option>
+<option value="CIM">Utah - Common Identifier Mechanism (CIM)</option>
+<option value="CEDS">Virginia - Comprehensive Environmental Data System (CEDS)</option>
+<option value="WA-FSIS">Washington - Facility / Site Identification System (WA-FSIS)</option>
+<option value="WI-ESR">Wisconsin - Environmental System Registry (WI-ESR)</option>
+<option value="ISD">Wyoming - Industrial Siting Division (ISD)</option>
+<option class="select-dash" disabled="disabled">___</option>
+<option value="CNFRS">Cherokee Nation - Cherokee Nation Facility Registry System (CNFRS)</option>
+<option value="CDAFLP">Coeur D'Alene - Coeur D'Alene Facility Location Program (CDAFLP)</option>
+<option value="NNEMS">Navajo Nation Environmental Management System (NNEMS)</option>
+<option value="SRPMICEMS">Salt River Pima-Maricopa Indian Community Environmental Management System (SRPMICEMS)</option>
+<option class="select-dash" disabled="disabled">___</option>
+<option value="EIA-860">Energy Information Administration-860 (EIA-860) Database</option></select><br/><br/>
+State ID<!-- label fields so that we can populate them using returned JSON values -->
+            <input type="text" id="ProgSysID" />
+            <br /><br/>
+
+  <input style="position: absolute; left: 200px" id="btnSearch" type="submit" value="search by system ID" />
+  
+<div id="resultsPanel"><br/><div id="facs"></div></div>
+
+
+<script>
+
+		// global variable to hold the json results, to make it easier to use
+        var jsonObj = ""
+		
+		        $("#btnSearch").click((function () {
+            runQuery();
+        }));
+		
+		
+		
+		function runQuery() {
+            //read the user-entered query parameters from the query form
+            var qID = $('#ProgSysID').val();
+            var qSys = $('#sysAcrnm').val();
+
+            //For this REST service, it is important to specify cache: true because otherwise jQuery will append an erroneous parameter to the query.
+            jQuery.ajaxSetup({
+                cache: true
+            });
+
+            //specify base endpoint - note callback
+            var echoAPI = "http://ofmpub.epa.gov/enviro/frs_rest_services.get_facilities?callback=?";
+            //pass in lookup query parameters
+            $.getJSON(echoAPI, {
+                pgm_sys_acrnm: qSys,
+                pgm_sys_id: qID,
+                output: "jsonp",
+                program_output: "YES"
+            })
+            //execute the action to parse the returned JSON on completion
+            .done(function (data) {
+				// toggle the results panel
+                $("#resultsPanel").show();
+                jsonObj = data;
+                //iterate through each item returned - in this case, item is a facility
+
+                $.each(data.Results.FRSFacility, function (i, item) {
+                    //access the elements inside each item and append them to the content in facs - with HTML formatting and hyperlinks
+                    $("<input type='radio' name='radioSelect' value=" + i + "> <b>" + item.FacilityName + "<a href='http://iaspub.epa.gov/enviro/fii_query_detail.disp_program_facility?p_registry_id=" + item.RegistryId + "' target='_blank'> FRS Registry ID: " + item.RegistryId + "</a></b><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + item.LocationAddress + "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + item.CityName + " " + item.StateAbbr + " " + item.ZipCode + "<br/>").appendTo("#facs");
+					
+
+                    if (i === 4) {
+                        return false;
+                    }
+                });
+            });
+
+        }
+
+</script>
+
+  
+</body>
+</html>

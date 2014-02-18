@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Leaflet FRS Query Example</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+
+    <!-- Load jQuery - jQuery can be hosted externally -->
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    
+    
+    <style>
+body {
+	background-color: #CCC;
+	font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
+}
+h3 {
+	color: darkcyan;
+}
+input[type=text] {
+	font-style: italic;
+	font-weight: bold;
+	line-height: normal;
+	background-color: #FFF;
+}
+input[type=text]:focus {
+	border-color: #333;
+}
+input[type=submit] {
+	background-color: #036;
+	font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif;
+	font-weight: bold;
+	color: #FFF
+}
+#resultsPanel {
+	display: none;
+}
+#searchPanel {
+	display: none;
+}
+
+#results{
+	position: absolute;
+	left: 620px;
+	top: 120px;
+	}
+	
+	#map{
+	position: absolute;
+	top: 120px;
+		}
+
+    </style>
+    
+</head>
+
+<body>
+    <h3>Map Search</h3>
+    <p> Pan and zoom to area of interest; select search parameters, and click on the map to query.<br/>
+      <label for="select">Search National Program:</label>
+      <select name="progSelect" id="progSelect">
+        <option value="ACRES">ACRES Brownfields</option>
+        <option value="LUST-ARRA">ARRA Leaking UST</option>
+        <option value="CERCLIS">CERCLIS</option>
+        <option value="ICIS">ICIS Enforcement Compliance</option>
+        <option value="BR">RCRA Biennial Reporters</option>
+        <option value="RCRAINFO">RCRA Reporters</option>
+      </select> 
+      &nbsp; Search Radius: 
+      <input name="searchRad" type="text" id="searchRad" value="10">
+    (miles)</p>
+    <div id="map" style="width: 600px; height: 400px"></div>
+    <div id="results">
+    <div id="facs"></div>
+
+<!-- jQuery will use the tag 'facs' to populate the returned data -->
+    
+    </div>
+    
+<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+<script>
+        var map = L.map('map').setView([39.104869, -84.803951], 10);
+
+        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: 'Map data © OpenStreetMap contributors'
+        }).addTo(map);
+
+        var popup = L.popup();
+
+        map.on('click', onMapClick);
+
+        function onMapClick(e) {
+	
+            var qLat = e.latlng.lat;
+            var qLong = e.latlng.lng;
+
+            // convert miles to meters
+            var radius = $('#searchRad').val() * 1609.34;
+
+            // draw circle
+
+            var circle = L.circle(e.latlng, radius, {
+                color: 'blue',
+                fillColor: '#0000FF',
+                fillOpacity: 0.2
+            }).addTo(map);
+
+
+            $("#facs").html("");
+			var sRadius = $('#searchRad').val();
+			var sProgram = $('#progSelect').val();
+            //For this REST service, it is important to specify cache: true because otherwise jQuery will append an erroneous parameter to the query.
+            jQuery.ajaxSetup({
+                cache: true
+            });
+            //specify base endpoint - note callback
+            var echoAPI = "http://ofmpub.epa.gov/enviro/frs_rest_services.get_facilities?callback=?";
+            //pass in parameters
+            $.getJSON(echoAPI, {
+                output: "jsonp",
+                latitude83: qLat,
+                longitude83: qLong,
+                search_radius: sRadius,
+                pgm_sys_acrnm: sProgram, 
+                program_output: "YES"
+            })
+            //execute the action to parse the returned JSON on completion
+            .done(function (data) {
+
+				$(sRadius).appendTo("#results");
+				//alert(sRadius);
+
+                //iterate through each item returned - in this case, item is a facility
+                $.each(data.Results.FRSFacility, function (i, item) {
+                    //access the elements inside each item and append them to the content in facs
+                    //$("<b> FRS Registry ID: " + item.RegistryId + " Facility Name: " + item.FacilityName + "</b>").appendTo("#facs");
+					$('<b><a href="http://iaspub.epa.gov/enviro/fii_query_detail.disp_program_facility?p_registry_id='+item.RegistryId+'" target = "blank">'+item.FacilityName+'</a></b>').appendTo("#facs");
+					
+					var marker = L.marker([item.Latitude83, item.Longitude83]).addTo(map);
+					marker.bindPopup('<a href="http://iaspub.epa.gov/enviro/fii_query_detail.disp_program_facility?p_registry_id='+item.RegistryId+'" target = "blank">'+item.FacilityName+'</a>');
+					
+                    $.each(item.ProgramFacilities, function (j, xxx) {
+                        $("<ul><li> " + xxx.ProgramSystemAcronym + " Program ID: " + xxx.ProgramSystemId + "</li></ul>").appendTo("#facs");
+                    });
+                    // close the UL tags
+                    $("</ul>").appendTo("#facs");
+
+
+                    // limit to first ten results
+                    if (i === 10) {
+                        return false;
+                    }
+                });
+            });
+
+        }
+    </script>
+
+</body>
+
+</html>

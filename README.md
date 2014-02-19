@@ -8,7 +8,7 @@ These code samples are each self-contained HTML pages demonstrating JavaScript s
 ### [FormLookup.html](https://github.com/USEPA/FRS-getfacilities-samples/blob/master/FormLookup.html)
 This sample code demonstrates how a web form for entering facility data can be augmented and extended using the GetFacilities REST service to perform a search.  (Additionally, this sample also includes an example of how results can be displayed using [leaflet.js](http://leafletjs.com/) and [OpenStreetMap](http://www.openstreetmap.org/) tiles.)
 
-**Live Demo**
+[**Live Demo**](http://druidsmith.github.io/demo/FormLookup.html)
 
 <iframe src="http://druidsmith.github.io/demo/FormLookup.html" width="625" height="310" style="display:block; margin: 0 auto;">&nbsp;</iframe>
 

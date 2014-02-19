@@ -49,6 +49,18 @@ http://ofmpub.epa.gov/enviro/frs_rest_services.get_facilities?pgm_sys_acrnm=MN-D
 Note in particular that things like the FRS RegistryID returned can be used to access a wide variety of other information, such as EPA Enforcement and Compliance History Reports or for Envirofacts data queries.
 Additionally, additional detailed program output can be retrieved by adding &program_output=Yes to the query parameters.
 
+## Conclusion
+
+Some additional information with ideas for how the API can be used (in this case, for connecting EPA and Department of Energy EIA data) can be found here:
+
+https://github.com/USEPA/FRS-getfacilities-samples/blob/master/EIA-EPA_Mashup.md
+
+The FRS Team is:
+
+> Dave Smith:	smith.davidg@epa.gov		202-566-0797<br/>
+  Ana Greene:	greene.ana@epa.gov			202-566-2132<br/>
+  Aaron Meyers:	meyers.aaron@epa.gov		202-566-0690<br/>
+
 ## EPA Disclaimer
 The United States Environmental Protection Agency (EPA) GitHub project code is provided on an "as is" basis and the user assumes responsibility for its use. EPA has relinquished control of the information and no longer has responsibility to protect the integrity , confidentiality, or availability of the information. Any reference to specific commercial products, processes, or services by service mark, trademark, manufacturer, or otherwise, does not constitute or imply their endorsement, recomendation or favoring by EPA. The EPA seal and logo shall not be used in any manner to imply endorsement of any commercial product or activity by EPA or the United States Government.
 

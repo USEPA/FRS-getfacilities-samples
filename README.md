@@ -1,4 +1,6 @@
+![](http://www.epa.gov/enviro/facts/img/facilityLogo.gif)
 ##  FRS GetFacilities REST API - Code Samples
+![](http://upload.wikimedia.org/wikipedia/commons/f/ff/Air_.pollution_1.jpg)
 
 This repository contains sample HTML/JavaScript code to demonstrate the use of the EPA Facility Registry Service (FRS) [GetFacilities REST API](http://www.epa.gov/enviro/html/fii/FRS_REST_Services.html).  The GetFacilities REST API can be used for a number of different types of applications, whether performing a radial search for EPA regulated facilities, or querying for facility information based on name and location, spatial query by radial search, or other types of applications.  These have initially been developed to support the 2014 Exchange Network Conference, as simple code samples developed in a few hours and a few dozen lines of JavaScript.
 

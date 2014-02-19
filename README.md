@@ -6,7 +6,6 @@ These code samples are each self-contained HTML pages demonstrating JavaScript s
 
 The REST API can return responses in XML, JSON and JSONP.  With jQuery, JSONP is an ideal choice as JavaScript can work natively with the returned objects.
 
-##  Samples:
 ## [FormLookup.html](https://github.com/USEPA/FRS-getfacilities-samples/blob/master/FormLookup.html)
 This sample code demonstrates how a web form for entering facility data can be augmented and extended using the GetFacilities REST service to perform a search.  (Additionally, this sample also includes an example of how results can be displayed using [leaflet.js](http://leafletjs.com/) and [OpenStreetMap](http://www.openstreetmap.org/) tiles.)
 
@@ -19,7 +18,6 @@ In the live demo, a sample query to try might be "3M, Cottage Grove MN" - which 
 
 The entered parameters are taken and a query is built in the form of http://ofmpub.epa.gov/enviro/frs_rest_services.get_facilities?facility_name=3M&city_name=Cottage%20Grove&state_abbr=MN&output=JSONP
 jQuery helps to retrieve any entered form fields for the search parameters, and then populates the form with the returned values for the selected facility.
-<hr/>
 
 ## [MapDemo.html](https://github.com/USEPA/FRS-getfacilities-samples/blob/master/MapDemo.html)
 

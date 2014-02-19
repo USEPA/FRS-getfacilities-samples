@@ -1,4 +1,5 @@
 ## 2014 Exchange Network Conference <br/> USEPA Facility Registry Service Resource Sheet
+![](http://www.exchangenetwork.net/wp-content/themes/exchange-network/images/exchange-network-logo.jpg)
 
 ### I. FRS GetFacilities Lookup Service
 

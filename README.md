@@ -22,3 +22,14 @@ jQuery helps to retrieve any entered form fields for the search parameters, and 
 ## [MapDemo.html](https://github.com/USEPA/FRS-getfacilities-samples/blob/master/MapDemo.html)
 
 This sample code demonstrates how a spatial query can be performed by providing a latitude/longitude, and user specified radius (in miles).  The user can also select which [program system](http://www.epa.gov/enviro/html/fii/data_sources.html) to query on (by acronym).  This code sample also uses leaflet.js and openstreetmap.
+
+**Live Demo**
+[(link to live demo)](http://druidsmith.github.io/demo/MapDemo.html)
+
+In the live demo, you can drag the map to pan or use the navigation or mouse scroll to zoom in and out - then, pick a program acronym from the dropdown, enter a desired radius in miles, and then click on the map to query.  A query to try might be [CERCLIS](http://www.epa.gov/enviro/facts/cerclis/index.html) facilities within 4 miles of a given location selected on the map.
+
+**Behind the scenes**
+
+This demo uses the leaflet.js library to render the map, using OpenStreetMap tiles, and then uses functions from leaflet to get the latitude and longitude.  There are generally very similar corresponding functions in other map APIs such as Bing Maps, ESRI Javascript API or Google Maps.  The code sample also uses leaflet to draw the circle specifying the search area (this is converted from miles to km).  The query is then constructed from those parameters, for example http://ofmpub.epa.gov/enviro/frs_rest_services.get_facilities?latitude83=38.8&longitude83=-77.01&search_radius=4&pgm_sys_acrnm=CERCLIS&output=JSONP
+
+Note:  The REST API was designed to use NAD83 lat/long in accordance with [EPA locational standards](http://iaspub.epa.gov/sor_internet/registry/datastds/findadatastandard/epaapproved/latitudelongitude/LatLongStandard_08112006.pdf), however in most cases this will be quite close to WGS84 lat/longs.

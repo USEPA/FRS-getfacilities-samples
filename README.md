@@ -51,6 +51,8 @@ Additionally, additional detailed program output can be retrieved by adding &pro
 
 ## Conclusion
 
+Hopefully these will serve as a quick-start for developers interested in integrating lookups to EPA facility information.
+
 Some additional information with ideas for how the API can be used (in this case, for connecting EPA and Department of Energy EIA data) can be found here:
 
 https://github.com/USEPA/FRS-getfacilities-samples/blob/master/EIA-EPA_Mashup.md

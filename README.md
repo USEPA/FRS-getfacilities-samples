@@ -14,4 +14,4 @@ This sample code demonstrates how a web form for entering facility data can be a
 
 A sample query to try might be "3M, Cottage Grove MN" - which should retrieve information for the 3M plant there.  
 
-Behind the scenes, a query is built in the form of [http://ofmpub.epa.gov/enviro/frs_rest_services.get_facilities?facility_name=3M&city_name=Cottage%20Grove&state_abbr=MN&output=JSONP](http://ofmpub.epa.gov/enviro/frs_rest_services.get_facilities?**facility_name=3M**&**city_name=Cottage%20Grove**&**state_abbr=MN**&**output=JSONP**)
+Behind the scenes, a query is built in the form of [http://ofmpub.epa.gov/enviro/frs_rest_services.get_facilities?facility_name=3M&city_name=Cottage%20Grove&state_abbr=MN&output=JSONP](http://ofmpub.epa.gov/enviro/frs_rest_services.get_facilities?facility_name=3M&city_name=Cottage%20Grove&state_abbr=MN&output=JSONP)

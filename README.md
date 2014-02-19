@@ -8,6 +8,9 @@ These code samples are each self-contained HTML pages demonstrating JavaScript s
 
 The REST API can return responses in XML, JSON and JSONP.  With jQuery, JSONP is an ideal choice as JavaScript can work natively with the returned objects.
 
+All code samples are licensed cc0.
+![](http://i.creativecommons.org/p/zero/1.0/88x31.png)
+
 ## [FormLookup.html](https://github.com/USEPA/FRS-getfacilities-samples/blob/master/FormLookup.html)
 This sample code demonstrates how a web form for entering facility data can be augmented and extended using the GetFacilities REST service to perform a search.  (Additionally, this sample also includes an example of how results can be displayed using [leaflet.js](http://leafletjs.com/) and [OpenStreetMap](http://www.openstreetmap.org/) tiles.)
 

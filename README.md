@@ -11,12 +11,11 @@ The REST API can return responses in XML, JSON and JSONP.  With jQuery, JSONP is
 ## [FormLookup.html](https://github.com/USEPA/FRS-getfacilities-samples/blob/master/FormLookup.html)
 This sample code demonstrates how a web form for entering facility data can be augmented and extended using the GetFacilities REST service to perform a search.  (Additionally, this sample also includes an example of how results can be displayed using [leaflet.js](http://leafletjs.com/) and [OpenStreetMap](http://www.openstreetmap.org/) tiles.)
 
-**Live Demo**
-[(link to live demo)](http://druidsmith.github.io/demo/FormLookup.html)
+### Live Demo [(link to live demo)](http://druidsmith.github.io/demo/FormLookup.html)
 
 In the live demo, a sample query to try might be "3M, Cottage Grove MN" - which should retrieve information for the 3M plant located there.  
 
-**Behind the scenes**
+### Behind the scenes
 
 The entered parameters are taken and a query is built in the form of http://ofmpub.epa.gov/enviro/frs_rest_services.get_facilities?facility_name=3M&city_name=Cottage%20Grove&state_abbr=MN&output=JSONP
 jQuery helps to retrieve any entered form fields for the search parameters, and then populates the form with the returned values for the selected facility.
@@ -25,12 +24,11 @@ jQuery helps to retrieve any entered form fields for the search parameters, and 
 
 This sample code demonstrates how a spatial query can be performed by providing a latitude/longitude, and user specified radius (in miles).  The user can also select which [program system](http://www.epa.gov/enviro/html/fii/data_sources.html) to query on (by acronym).  This code sample also uses leaflet.js and openstreetmap.
 
-**Live Demo**
-[(link to live demo)](http://druidsmith.github.io/demo/MapDemo.html)
+### Live Demo [(link to live demo)](http://druidsmith.github.io/demo/MapDemo.html)
 
 In the live demo, you can drag the map to pan or use the navigation or mouse scroll to zoom in and out - then, pick a program acronym from the dropdown, enter a desired radius in miles, and then click on the map to query.  A query to try might be [CERCLIS](http://www.epa.gov/enviro/facts/cerclis/index.html) facilities within 4 miles of a given location selected on the map.
 
-**Behind the scenes**
+### Behind the scenes
 
 This demo uses the leaflet.js library to render the map, using OpenStreetMap tiles, and then uses functions from leaflet to get the latitude and longitude.  There are generally very similar corresponding functions in other map APIs such as Bing Maps, ESRI Javascript API or Google Maps.  The code sample also uses leaflet to draw the circle specifying the search area (this is converted from miles to km).  The query is then constructed from those parameters, for example http://ofmpub.epa.gov/enviro/frs_rest_services.get_facilities?latitude83=38.8&longitude83=-77.01&search_radius=4&pgm_sys_acrnm=CERCLIS&output=JSONP
 
@@ -40,12 +38,11 @@ Note:  The REST API was designed to use NAD83 lat/long in accordance with [EPA l
 
 This sample code demonstrates how a system ID can be used to query FRS and retrieve information - as an example, a state identifier or other system ID such as Department of Energy EIA-860 ORIS power plant ID.
 
-**Live Demo**
-[(link to live demo)](http://druidsmith.github.io/demo/SysIDQuery.html)
+### Live Demo [(link to live demo)](http://druidsmith.github.io/demo/SysIDQuery.html)
 
 In the live demo, you can select a system to query by using the dropdown, and then enter an ID to query.  For example, you can select Minnesota's MN-DELTA system and try the MN-DELTA ID 117212.
 
-**Behind the scenes**
+### Behind the scenes
 
 This sample code simply constructs a query using the specified parameters and retrieves the associated facility information.  
 http://ofmpub.epa.gov/enviro/frs_rest_services.get_facilities?pgm_sys_acrnm=MN-DELTA&pgm_sys_id=117212&output=JSONP

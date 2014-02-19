@@ -33,3 +33,20 @@ In the live demo, you can drag the map to pan or use the navigation or mouse scr
 This demo uses the leaflet.js library to render the map, using OpenStreetMap tiles, and then uses functions from leaflet to get the latitude and longitude.  There are generally very similar corresponding functions in other map APIs such as Bing Maps, ESRI Javascript API or Google Maps.  The code sample also uses leaflet to draw the circle specifying the search area (this is converted from miles to km).  The query is then constructed from those parameters, for example http://ofmpub.epa.gov/enviro/frs_rest_services.get_facilities?latitude83=38.8&longitude83=-77.01&search_radius=4&pgm_sys_acrnm=CERCLIS&output=JSONP
 
 Note:  The REST API was designed to use NAD83 lat/long in accordance with [EPA locational standards](http://iaspub.epa.gov/sor_internet/registry/datastds/findadatastandard/epaapproved/latitudelongitude/LatLongStandard_08112006.pdf), however in most cases this will be quite close to WGS84 lat/longs.
+
+## [SysIDQuery.html](https://github.com/USEPA/FRS-getfacilities-samples/blob/master/SysIDQuery.html)
+
+This sample code demonstrates how a system ID can be used to query FRS and retrieve information - as an example, a state identifier or other system ID such as Department of Energy EIA-860 ORIS power plant ID.
+
+**Live Demo**
+[(link to live demo)](http://druidsmith.github.io/demo/SysIDQuery.html)
+
+In the live demo, you can select a system to query by using the dropdown, and then enter an ID to query.  For example, you can select Minnesota's MN-DELTA system and try the MN-DELTA ID 117212.
+
+**Behind the scenes**
+
+This sample code simply constructs a query using the specified parameters and retrieves the associated facility information.  
+http://ofmpub.epa.gov/enviro/frs_rest_services.get_facilities?pgm_sys_acrnm=MN-DELTA&pgm_sys_id=117212&output=JSONP
+Note in particular that things like the FRS RegistryID returned can be used to access a wide variety of other information, such as EPA Enforcement and Compliance History Reports or for Envirofacts data queries.
+Additionally, additional detailed program output can be retrieved by adding &program_output=Yes to the query parameters.
+

@@ -55,7 +55,7 @@ Some additional information with ideas for how the API can be used (in this case
 
 https://github.com/USEPA/FRS-getfacilities-samples/blob/master/EIA-EPA_Mashup.md
 
-The FRS Team is:
+**The FRS Team is:**
 
 > Dave Smith:	smith.davidg@epa.gov		202-566-0797<br/>
   Ana Greene:	greene.ana@epa.gov			202-566-2132<br/>

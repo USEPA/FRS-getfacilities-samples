@@ -8,6 +8,14 @@ These code samples are each self-contained HTML pages demonstrating JavaScript s
 
 The REST API can return responses in XML, JSON and JSONP.  With jQuery, JSONP is an ideal choice as JavaScript can work natively with the returned objects.
 
+_**"Do I need an API Key to use the service?"**_
+
+No API key is needed.
+
+_**"How much data can I download from this service?"**_ 
+
+The service is intended for dynamic, interactive applications, and works most ideally if you are querying a few facilities at a time.  If you need a lot of data or would like to get raw data, or would like to see this as an ArcGIS Map service, we would encourage you to explore the many options here:  http://www.epa.gov/enviro/html/fii/dataresources.html
+
 All code samples are licensed cc0.
 ![](http://i.creativecommons.org/p/zero/1.0/88x31.png)
 

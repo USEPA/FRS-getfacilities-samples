@@ -4,6 +4,8 @@
 
 This document presents some suggestions for mashing up Department of Energy data (EIA-860 Power Generation) with EPA data from EPA websites and APIs. Use cases could include using EPA's spatial search capability to augment and extend the EIA API in searching for power plants, or in connecting EPA data like emissions and greenhouse gas data to EIA power generation data.  An EPA API that can help this is the Facility Registry Service (FRS) API.
 
+_New addition as of May 2014:  Ability to retrieve FRS facility detail reports using EIA-860 ORIS IDs or other identifiers - see below for details_
+
 ### Key Linkage:  How to connect between EPA facility data and Department of Energy ORIS IDs and EIA data
 
 EPA integrates EIA-860 power plant data in its [Facility Registry Service (FRS)](http://epa.gov/frs) on an annual basis.  As such, the EIA-860 ORIS identifiers are available there.  FRS integrates facility data across 90 different datasets to provide a means of linking and crosswalking these datasets.  This can typically be done via the EPA Registry ID.
@@ -57,11 +59,23 @@ This Registry ID can be used to retrieve a number of EPA reports by simply plugg
 
 http://iaspub.epa.gov/enviro/fii_query_detail.disp_program_facility?p_registry_id=110000538525
 
+### Using a Program ID (such as an EIA ORIS ID) to access an FRS Facility Detail Report
+
+This is a new feature, added to the FRS Facility Detail Reports in May of 2014.  Now, in addition to using an FRS Registry ID, other types of IDs (such as an EIA ORIS ID, RCRA Handler ID, NPDES Permit, et cetera) can be used to retrieve FRS Facility Detail Reports:
+
+http://ofmpub.epa.gov/enviro/fii_query_detail.disp_program_facility?pgm_sys_acrnm_in=EIA-860&pgm_sys_id_in=599
+
+It uses the parameters **pgm_sys_acrnm_in=[program acronym]** to specify the program (in this case, EIA-860) and **pgm_sy_id_in=NNNN** to specify the identifier, in this case 'NNNN' is the EIA ORIS ID.
+
 ### EPA ECHO Enforcement and Compliance Report
+
+EPA ECHO Enforcement and Compliance Reports can also be retrieved using the FRS Registry ID, using the parameter **fid=[FRS Registry ID]** - example:
 
 http://echo.epa.gov/detailed_facility_report?fid=110000538525
 
 ### EPA Envirofacts Detailed Report
+
+Similarly, FRS Regstry ID can be used to retrieve Envirofacts detail reports, using the parameter **facility_uin=[FRS Registry ID]** - example:
 
 http://oaspub.epa.gov/enviro/multisys2_v2.get_list?facility_uin=110000538525
 

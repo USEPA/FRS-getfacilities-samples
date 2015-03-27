@@ -16,8 +16,8 @@ _**"How much data can I download from this service?"**_
 
 The service is intended for dynamic, interactive applications, and works most ideally if you are querying a few facilities at a time.  If you need a lot of data or would like to get raw data, or would like to see this as an ArcGIS Map service, we would encourage you to explore the many options here:  http://www.epa.gov/enviro/html/fii/dataresources.html
 
-All code samples are licensed cc0.
-![](http://i.creativecommons.org/p/zero/1.0/88x31.png)
+All code samples are licensed CC0 1.0 Universal 
+![](http://creativecommons.org/images/deed/nolaw.png)
 
 ## [FormLookup.html](https://github.com/USEPA/FRS-getfacilities-samples/blob/master/FormLookup.html)
 This sample code demonstrates how a web form for entering facility data can be augmented and extended using the GetFacilities REST service to perform a search.  (Additionally, this sample also includes an example of how results can be displayed using [leaflet.js](http://leafletjs.com/) and [OpenStreetMap](http://www.openstreetmap.org/) tiles.)
